@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 class Search extends Component{
   render(){
-    const {page} = this.props;
+    // const {page} = this.props;
 
     return (
       <div className="search-books">
