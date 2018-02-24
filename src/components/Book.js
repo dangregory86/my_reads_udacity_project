@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 class Book extends Component {
 
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array
   }
 
   saveThisBook = (book, shelf) => {
@@ -16,6 +16,9 @@ class Book extends Component {
   render() {
 
     const {books} = this.props;
+    if(!books){
+      return null;
+    }
 
     return (<ol className="books-grid">
       {books.map((book) => (
@@ -25,7 +28,6 @@ class Book extends Component {
             <img src={book.imageLinks.thumbnail} alt='The cover' className="book-cover" style={{
                 width: 128,
                 height: 193
-                // backgroundImage: 'url({book.imageLinks.thumbnail})'
               }}/>
             <SelectShelf
               book={book}
@@ -38,7 +40,7 @@ class Book extends Component {
       </li>
       ))}
   </ol>)
-  }
+}
 }
 
 export default Book
