@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Book from './components/Book'
 import * as BooksAPI from './BooksAPI'
-import escapeRegExp from 'escape-string-regexp'
 
 class Search extends Component{
 
@@ -11,15 +10,14 @@ class Search extends Component{
     if(this.matched(query)){
       BooksAPI.search(query.trim())
       .then((results) => this.setState({results}));
+    }else{
+      this.setState({results: []});
     }
   }
 
   matched = (query) => {
     if(query){
-      const toSearch = "^" + query;
-      const match = new RegExp(escapeRegExp(query), 'i');
-      console.log(match)
-      const terms = this.state.searchTerms.filter((term) => match.test(term))
+      const terms = this.state.searchTerms.filter((term) => term.toLowerCase().startsWith(query))
       console.log(terms)
       if(terms.length < 1){
         return false

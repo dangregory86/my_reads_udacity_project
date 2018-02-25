@@ -44,9 +44,9 @@ class BooksApp extends React.Component {
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
                 <div className="bookshelf-books">
-                  <Book
-                    saveBook={this.saveBook}
-                    books={this.state.books.filter((book) => (book.shelf === "currentlyReading"))}/>
+                    <Book
+                      saveBook={this.saveBook}
+                      books={this.state.books.filter((book) => (book.shelf === "currentlyReading"))}/>
                 </div>
               </div>
               <div className="bookshelf">
