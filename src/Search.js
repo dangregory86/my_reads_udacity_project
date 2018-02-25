@@ -3,62 +3,55 @@ import {Link} from 'react-router-dom'
 import Book from './components/Book'
 import * as BooksAPI from './BooksAPI'
 
-class Search extends Component{
+class Search extends Component {
 
-  updateQuery(query){
+  /* @Description. a function to keep update the result state
+  *  @Params, {String} query
+  */
+  updateQuery(query) {
     this.setState({results: []});
-    if(this.matched(query)){
-      BooksAPI.search(query.trim())
-      .then((results) => this.setState({results}));
-    }else{
+    if (this.matched(query)) {
+      BooksAPI.search(query.trim()).then((results) => this.setState({results}));
+    } else {
       this.setState({results: []});
     }
   }
 
+  /* @Description. a function to ensure only the provided searchterms can be used
+  *  @Params, {String} query
+  */
   matched = (query) => {
-    if(query){
+    if (query) {
       const terms = this.state.searchTerms.filter((term) => term.toLowerCase().startsWith(query))
       console.log(terms)
-      if(terms.length < 1){
+      if (terms.length < 1) {
         return false
-      }else{
+      } else {
         return true
       }
-    }else{
+    } else {
       return false
     }
   }
 
-
-
-  render(){
+  render() {
     const {saveBook} = this.props;
     const {query} = this.state;
 
-    return (
-      <div className="search-books">
-        <div className="search-books-bar">
-          <Link className="close-search" to='/'>Close</Link>
-          <div className="search-books-input-wrapper">
-            <input
-              type="text"
-              placeholder="Search by title or author"
-              value={query}
-              onChange={(event) => this.updateQuery(event.target.value)}
-            />
+    return (<div className="search-books">
+      <div className="search-books-bar">
+        <Link className="close-search" to='/'>Close</Link>
+        <div className="search-books-input-wrapper">
+          <input type="text" placeholder="Search by title or author" value={query} onChange={(event) => this.updateQuery(event.target.value)}/>
 
-          </div>
-        </div>
-        <div className="search-books-results">
-          <ol className="books-grid">
-            <Book
-              books={this.state.results}
-              saveBook={saveBook}
-            />
-          </ol>
         </div>
       </div>
-    )
+      <div className="search-books-results">
+        <ol className="books-grid">
+          <Book books={this.state.results} saveBook={saveBook}/>
+        </ol>
+      </div>
+    </div>)
   }
 
   state = {
