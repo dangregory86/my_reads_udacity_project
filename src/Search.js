@@ -3,6 +3,88 @@ import {Link} from 'react-router-dom'
 import Book from './components/Book'
 import * as BooksAPI from './BooksAPI'
 
+const searchTerms = [
+  'Android',
+  'Art',
+  'Artificial Intelligence',
+  'Astronomy',
+  'Austen',
+  'Baseball',
+  'Basketball',
+  'Bhagat',
+  'Biography',
+  'Brief',
+  'Business',
+  'Camus',
+  'Cervantes',
+  'Christie',
+  'Classics',
+  'Comics',
+  'Cook',
+  'Cricket',
+  'Cycling',
+  'Desai',
+  'Design',
+  'Development',
+  'Digital Marketing',
+  'Drama',
+  'Drawing',
+  'Dumas',
+  'Education',
+  'Everything',
+  'Fantasy',
+  'Film',
+  'Finance',
+  'First',
+  'Fitness',
+  'Football',
+  'Future',
+  'Games',
+  'Gandhi',
+  'Homer',
+  'Horror',
+  'Hugo',
+  'Ibsen',
+  'Journey',
+  'Kafka',
+  'King',
+  'Lahiri',
+  'Larsson',
+  'Learn',
+  'Literary Fiction',
+  'Make',
+  'Manage',
+  'Marquez',
+  'Money',
+  'Mystery',
+  'Negotiate',
+  'Painting',
+  'Philosophy',
+  'Photography',
+  'Poetry',
+  'Production',
+  'Programming',
+  'React',
+  'Redux',
+  'River',
+  'Robotics',
+  'Rowling',
+  'Satire',
+  'Science Fiction',
+  'Shakespeare',
+  'Singh',
+  'Swimming',
+  'Tale',
+  'Thrun',
+  'Time',
+  'Tolstoy',
+  'Travel',
+  'Ultimate',
+  'Virtual Reality',
+  'Web Development',
+  'iOS'
+]
+
 class Search extends Component {
 
   /* @Description. a function to keep update the result state
@@ -11,10 +93,24 @@ class Search extends Component {
   updateQuery(query) {
     this.setState({results: []});
     if (this.matched(query)) {
-      BooksAPI.search(query.trim()).then((results) => this.setState({results}));
+      BooksAPI.search(query.trim()).then((results) => (this.checkIfSaved(results)));
     } else {
       this.setState({results: []});
     }
+  }
+
+  /* @Description. a function to check if the book is already shelved
+  * @Params. {Object} results
+  */
+  checkIfSaved = (results) => {
+    let notSaved = results.filter(nb => !this.props.books.some(ob => nb.id === ob.id));
+    let alreadySaved = this.props.books.filter(ob => results.some(nb => ob.id === nb.id));
+    // return notSaved;
+    this.setState((state) => {
+      state.results = state.results.concat(notSaved);
+      state.results = state.results.concat(alreadySaved);
+      return state;
+    })
   }
 
   /* @Description. a function to ensure only the provided searchterms can be used
@@ -22,8 +118,7 @@ class Search extends Component {
   */
   matched = (query) => {
     if (query) {
-      const terms = this.state.searchTerms.filter((term) => term.toLowerCase().startsWith(query))
-      console.log(terms)
+      const terms = searchTerms.filter((term) => term.toLowerCase().startsWith(query.toLowerCase()))
       if (terms.length < 1) {
         return false
       } else {
@@ -55,88 +150,7 @@ class Search extends Component {
   }
 
   state = {
-    results: [],
-    searchTerms: [
-      'Android',
-      'Art',
-      'Artificial Intelligence',
-      'Astronomy',
-      'Austen',
-      'Baseball',
-      'Basketball',
-      'Bhagat',
-      'Biography',
-      'Brief',
-      'Business',
-      'Camus',
-      'Cervantes',
-      'Christie',
-      'Classics',
-      'Comics',
-      'Cook',
-      'Cricket',
-      'Cycling',
-      'Desai',
-      'Design',
-      'Development',
-      'Digital Marketing',
-      'Drama',
-      'Drawing',
-      'Dumas',
-      'Education',
-      'Everything',
-      'Fantasy',
-      'Film',
-      'Finance',
-      'First',
-      'Fitness',
-      'Football',
-      'Future',
-      'Games',
-      'Gandhi',
-      'Homer',
-      'Horror',
-      'Hugo',
-      'Ibsen',
-      'Journey',
-      'Kafka',
-      'King',
-      'Lahiri',
-      'Larsson',
-      'Learn',
-      'Literary Fiction',
-      'Make',
-      'Manage',
-      'Marquez',
-      'Money',
-      'Mystery',
-      'Negotiate',
-      'Painting',
-      'Philosophy',
-      'Photography',
-      'Poetry',
-      'Production',
-      'Programming',
-      'React',
-      'Redux',
-      'River',
-      'Robotics',
-      'Rowling',
-      'Satire',
-      'Science Fiction',
-      'Shakespeare',
-      'Singh',
-      'Swimming',
-      'Tale',
-      'Thrun',
-      'Time',
-      'Tolstoy',
-      'Travel',
-      'Ultimate',
-      'Virtual Reality',
-      'Web Development',
-      'iOS'
-    ]
+    results: []
   }
 }
 

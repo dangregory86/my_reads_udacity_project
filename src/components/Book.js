@@ -37,7 +37,7 @@ class Book extends Component {
 
     return (<ol className="books-grid">
       {
-        books.map((book) => (<li key={book.id}>
+        books.map((book) => (<li key={book.title}>
           <div className="book">
             <div className="book-top">
               <img src={this.coverImg(book)} alt='The cover' className="book-cover" style={{
