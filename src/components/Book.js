@@ -40,10 +40,7 @@ class Book extends Component {
         books.map((book) => (<li key={book.title}>
           <div className="book">
             <div className="book-top">
-              <img src={this.coverImg(book)} alt='The cover' className="book-cover" style={{
-                  width: 128,
-                  height: 193
-                }}/>
+              <img src={this.coverImg(book)} alt='The cover' className="book-cover" />
               <SelectShelf book={book} saveThisBook={this.saveThisBook}/>
             </div>
             <div className="book-title">{book.title}</div>

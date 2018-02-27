@@ -4,6 +4,7 @@ import './App.css'
 import Search from './Search.js'
 import {Route, Link} from 'react-router-dom'
 import BookShelf from './components/BookShelf'
+import Title from './components/Title'
 
 class BooksApp extends React.Component {
   state = {
@@ -53,12 +54,9 @@ class BooksApp extends React.Component {
     return (<div className="app">
       <Route path='/search' render={({history}) => (<Search saveBook={(book, shelf) => {
             this.saveBook(book, shelf)
-            history.push('/')
           }} books={this.state.books}/>)}/>
       <Route exact path='/' render={() => (<div className="list-books">
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
+          <Title/>
           <div className="list-books-content">
             <div>
               {shelves.map((shelf) => (<BookShelf key={shelf.id} books={this.state.books.filter((book) => (book.shelf === shelf.id))} saveBook={this.saveBook} title={shelf.title}/>))}

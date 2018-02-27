@@ -8,7 +8,7 @@ class BookShelf extends Component {
       return null;
     }
     return (<div className="bookshelf">
-      <h2 className="bookshelf-title">{title}</h2>
+      <h2 className="bookshelf-title">{title} <i class="fa fa-angle-down rotate-icon"></i></h2>
       <div className="bookshelf-books">
         <Book saveBook={saveBook} books={books}/>
       </div>
